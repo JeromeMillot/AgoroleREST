@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- log4j2 config v1.0.0 -->
+<Configuration status="ERROR">
+	<Properties>
+		<Property name="logFileName">jetonServiceREST</Property>
+
+		<!-- on verifie si la variable catalina.base existe. -->
+		<!-- dans le cas contraire, les fichiers de log seront placés -->
+		<!-- dans le répertoire personnel de l'utilisateur -->
+		<Property name="logPath">$${sys:catalina.base:-${sys:user.home}}/logs
+		</Property>
+		<Property name="logFilePath">${logPath}/${logFileName}</Property>
+
+		<Property name="errLevel_error">ERROR</Property>
+		<Property name="errLevel_info">INFO</Property>
+		
+		<Property name="logPattern">%d{DEFAULT} %-5level %l - %msg%n%throwable{}</Property>
+
+	</Properties>
+	<Appenders>
+
+
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="${logPattern}" />
+		</Console>
+
+
+		<RollingFile name="fichierTournant" fileName="${logFilePath}.log"
+			append="true" filePattern="${logPath}/${logFileName}-%d{yyyy-MM-dd}-%i.log"
+			immediateFlush="true" bufferedIO="false" bufferSize="0">
+			<PatternLayout
+				pattern="${logPattern}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="2MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="12" />
+		</RollingFile>
+		
+		<RollingFile name="fichierTournantPerf" fileName="${logFilePath}Perf.log"
+			append="true" filePattern="${logPath}/${logFileName}Perf-%d{yyyy-MM-dd}-%i.log"
+			immediateFlush="true" bufferedIO="false" bufferSize="0">
+			<PatternLayout
+				pattern="${logPattern}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="2MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="12" />
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<!-- <Logger name="fr.inra.ctig.outils" level="INFO">
+			<AppenderRef ref="fichierTournant" />
+		</Logger>
+
+		<Logger name="fr.inra.ctig.donneJeton" level="ERROR">
+			<AppenderRef ref="fichierTournant" />
+		</Logger>
+		
+		<Logger name="fr.inra.ctig.osPhfTaureauRestCoeur" level="DEBUG">
+			<AppenderRef ref="fichierTournant" />
+		</Logger>
+		<Logger name="fr.inra.ctig.osPhfTaureauRestCoeur.utils" level="DEBUG">
+			<AppenderRef ref="fichierTournantPerf" />
+		</Logger> -->
+		
+		<Root level="DEBUG">
+			<AppenderRef ref="fichierTournant" />
+			<AppenderRef ref="console" />
+		</Root>
+	</Loggers>
+</Configuration>
