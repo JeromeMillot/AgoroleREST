@@ -2,7 +2,6 @@ package jetonService.services;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.ws.rs.Consumes;
