@@ -16,12 +16,17 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
+import dto.User;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import jetonService.metier.DonneJetonMetier;
+import jetonService.outils.fjdrjwt.ResponseSerializer;
 
 @Path("/jeton")
 public class Jeton {
@@ -30,23 +35,27 @@ public class Jeton {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public String postJetonPublic(String jetonPublic) throws InvalidClaimException, TokenExpiredException, AlgorithmMismatchException, JWTVerificationException, IllegalArgumentException, UnsupportedEncodingException, JsonProcessingException {
-        if (logger.isDebugEnabled()) {
-            logger.debug(jetonPublic);
+    	System.out.println("ICI: " + jetonPublic);
+    	String str = "";
+    	if (logger.isDebugEnabled()) {
+            logger.debug(jetonPublic);            
         }
+        
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, Claim> map = DonneJetonMetier.donneJetonPrive(jetonPublic);        
+        SimpleModule module = new SimpleModule("ResponseSerializer", new Version(1, 0, 0, null, null, null));
+        		module.addSerializer(User.class, new ResponseSerializer());
+        		mapper.registerModule(module);
+        Map<String, Claim> map = DonneJetonMetier.donneJetonPrive(jetonPublic);   
+        
         if (logger.isDebugEnabled()) {
             for (Entry<String, Claim> var : map.entrySet()) {
                 logger.debug(var.getKey());
                 logger.debug(var.getValue().asString());
             }
-        }
-        if (logger.isDebugEnabled()) {
-            for (Claim var : map.values()) {
-                logger.debug(var.asString());
-            }
-        }
-        String str = mapper.writeValueAsString(map);
+            logger.debug(map.toString());
+        }        
+        
+//        String str = mapper.writeValueAsString(map);
         if (logger.isDebugEnabled()) {
             logger.debug(str);
         }        

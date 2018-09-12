@@ -51,21 +51,9 @@
 		</RollingFile>
 	</Appenders>
 	<Loggers>
-		<!-- <Logger name="fr.inra.ctig.outils" level="INFO">
+		<Logger name="jetonService.services.Jeton" level="DEBUG">
 			<AppenderRef ref="fichierTournant" />
 		</Logger>
-
-		<Logger name="fr.inra.ctig.donneJeton" level="ERROR">
-			<AppenderRef ref="fichierTournant" />
-		</Logger>
-		
-		<Logger name="fr.inra.ctig.osPhfTaureauRestCoeur" level="DEBUG">
-			<AppenderRef ref="fichierTournant" />
-		</Logger>
-		<Logger name="fr.inra.ctig.osPhfTaureauRestCoeur.utils" level="DEBUG">
-			<AppenderRef ref="fichierTournantPerf" />
-		</Logger> -->
-		
 		<Root level="DEBUG">
 			<AppenderRef ref="fichierTournant" />
 			<AppenderRef ref="console" />
