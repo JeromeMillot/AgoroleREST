@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://wadl.dev.java.net/2009/02"><doc
+        jersey:generatedBy="Jersey: 1.19.4 05/24/2017 03:20 PM"
+        xmlns:jersey="http://jersey.java.net/"/><doc
+        title="The doc for your API"
+        xml:lang="en"><![CDATA[
+        This is a paragraph that is added to the start of the generated application.wadl
+    ]]></doc><doc
+        title="Die Dokumentation fuer Ihre API"
+            xml:lang="de"><![CDATA[
+        Dies in ein Abschnitt, der dem Beginn der generierte application.wadl hinzugefügt wird - in deutscher Sprache.
+    ]]></doc><grammars><include
+        href="schema.xsd"/></grammars><resources base="http://localhost:8080/jetonServiceREST/rest"/></application>
