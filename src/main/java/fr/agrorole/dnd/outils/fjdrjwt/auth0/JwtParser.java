@@ -1,4 +1,4 @@
-package jetonService.outils.fjdrjwt.auth0;
+package fr.agrorole.dnd.outils.fjdrjwt.auth0;
 
 import java.io.UnsupportedEncodingException;
 import java.time.Duration;

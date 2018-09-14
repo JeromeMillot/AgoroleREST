@@ -1,8 +1,8 @@
-package interfaces;
+package fr.agrorole.dnd.interfaces;
 
 import java.util.List;
 
-import dto.User;
+import fr.agrorole.dnd.dto.User;
 
 public interface IUserDAO {
 	public void addUser(User user);

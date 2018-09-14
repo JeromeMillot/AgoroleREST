@@ -24,6 +24,8 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import fr.agrorole.dnd.outils.fjdrjwt.auth0.JwtParser;
+
 public class JwtParserTest extends TestCase {
 
 	public static final String DATE_FORMAT = "dd/MM/yyyy";

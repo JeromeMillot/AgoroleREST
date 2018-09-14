@@ -1,4 +1,4 @@
-package jetonService.services;
+package fr.agrorole.dnd.services;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -20,17 +20,16 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import dto.User;
+import fr.agrorole.dnd.dto.User;
+import fr.agrorole.dnd.metier.DonneJetonMetier;
+import fr.agrorole.dnd.outils.ResponseSerializer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import jetonService.metier.DonneJetonMetier;
-import jetonService.outils.fjdrjwt.ResponseSerializer;
-
 @Path("/jeton")
-public class Jeton {
-    private static Logger logger = LogManager.getLogger(Jeton.class);
+public class JetonService {
+    private static Logger logger = LogManager.getLogger(JetonService.class);
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)

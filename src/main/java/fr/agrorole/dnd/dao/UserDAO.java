@@ -1,4 +1,4 @@
-package dao;
+package fr.agrorole.dnd.dao;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import javax.persistence.Persistence;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import dto.User;
-import interfaces.IUserDAO;
+import fr.agrorole.dnd.dto.User;
+import fr.agrorole.dnd.interfaces.IUserDAO;
 
 public class UserDAO implements IUserDAO {
 	

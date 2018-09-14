@@ -57,7 +57,7 @@
 					<formatWadlFile>true</formatWadlFile>
 					<baseUri>http://localhost:8080/${project.name}/rest</baseUri>
 					<packagesResourceConfig>
-						<param>fr.inra.ctig.</param>
+						<param>fr.agorole.dnd.</param>
 					</packagesResourceConfig>
 					<wadlGenerators>
 						<wadlGeneratorDescription>

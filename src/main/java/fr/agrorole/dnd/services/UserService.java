@@ -1,6 +1,6 @@
-package jetonService.services;
+package fr.agrorole.dnd.services;
 
-import static jetonService.outils.fjdrjwt.MapperFactory.getObjectMapper;
+import static fr.agrorole.dnd.outils.MapperFactory.getObjectMapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;

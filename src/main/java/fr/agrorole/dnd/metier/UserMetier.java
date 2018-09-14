@@ -1,11 +1,11 @@
-package jetonService.metier;
+package fr.agrorole.dnd.metier;
 
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import dao.UserDAO;
-import dto.User;
+import fr.agrorole.dnd.dao.UserDAO;
+import fr.agrorole.dnd.dto.User;
 
 public class UserMetier {
 

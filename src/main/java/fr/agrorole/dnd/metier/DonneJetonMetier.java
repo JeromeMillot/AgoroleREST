@@ -1,4 +1,4 @@
-package jetonService.metier;
+package fr.agrorole.dnd.metier;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -9,7 +9,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 
-import jetonService.outils.fjdrjwt.auth0.JwtParser;
+import fr.agrorole.dnd.outils.fjdrjwt.auth0.JwtParser;
 
 public class DonneJetonMetier {
 

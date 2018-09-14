@@ -1,4 +1,4 @@
-package jetonService.outils.fjdrjwt;
+package fr.agrorole.dnd.outils;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
