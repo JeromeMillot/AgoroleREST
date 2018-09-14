@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence 
 	http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd ">
-	  <persistence:persistence-unit name="PORTFOLIO">
+	  <persistence:persistence-unit name="DB_DND">
 	  	<persistence:provider>org.hibernate.jpa.HibernatePersistenceProvider</persistence:provider>
 	  	<persistence:properties>
 	  		<persistence:property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/AGOROLE"/>
