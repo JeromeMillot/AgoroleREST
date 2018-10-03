@@ -16,7 +16,7 @@ public class JWTParserTest {
 	
 	@Test
 	public void test() throws IllegalArgumentException, UnsupportedEncodingException {
-		assertEquals("castelgoulz:mdpalacon", JWTParser.checkCredentials("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJZMkZ6ZEdWc1oyOTFiSG82YldSd1lXeGhZMjl1IiwibmFtZSI6IkpvaG4gRG9lIiwiaXNzIjoiQWdvcm9sZSIsImlhdCI6MTUxNjIzOTAyMn0.PYyBr8fhIND5R9wEMeF1vvljqtN8natKlt2RkMAkyg0"));
+		assertTrue(JWTParser.verifyToken(JWTParser.buildJWT("castelgoulz")));
 	}
 
 }

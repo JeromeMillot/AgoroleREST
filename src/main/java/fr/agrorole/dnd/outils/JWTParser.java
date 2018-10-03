@@ -17,17 +17,19 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-public class JWTParser {	
-	
+import fr.agrorole.dnd.metier.UserMetier;
+
+public class JWTParser {
+
 	private static Algorithm algorithm;
-	private static final String secret = "LaguardaStandStill";
+	private static final String secret = "LaguardaStandStillIn2018";
 	private static final String issuer = "Agorole";
-	
+	private static UserMetier userMetier = new UserMetier();
 	public JWTParser() {
-		super();		
+		super();
 	}
 
-	public static String buildJWT(String userId) throws IllegalArgumentException, JWTCreationException, UnsupportedEncodingException {		
+	public static String buildJWT(String userId) throws IllegalArgumentException, JWTCreationException, UnsupportedEncodingException {
 		Instant now = Instant.now();
 		Date oneDayMore = Date.from(now.plus(Duration.ofDays(1)));
 		Builder tokenBuilder = JWT.create();
@@ -35,43 +37,22 @@ public class JWTParser {
 		tokenBuilder.withIssuer(issuer);
 		tokenBuilder.withIssuedAt(Date.from(now));
 		tokenBuilder.withExpiresAt(oneDayMore);
-		
+
 		return tokenBuilder.sign(Algorithm.HMAC256(secret));
 	}
 
-	public static Map<String, Claim> getClaims(String token) throws IllegalArgumentException, UnsupportedEncodingException {	
-		
+	public static Map<String, Claim> getClaims(String token) throws IllegalArgumentException, UnsupportedEncodingException {
+
 		algorithm = Algorithm.HMAC256(secret);
 		JWTVerifier verifier = JWT.require(algorithm)
 				.withIssuer(issuer)
 				.acceptExpiresAt(0)
 				.build();
-		
+
 		DecodedJWT decodedJWT = verifier.verify(token);
 		return decodedJWT.getClaims();
 	}
-	
-	public static String getSignature(String token) throws IllegalArgumentException, UnsupportedEncodingException {	
-		
-		algorithm = Algorithm.HMAC256(secret);
-		JWTVerifier verifier = JWT.require(algorithm)
-				.withIssuer(issuer)
-				.acceptExpiresAt(0)
-				.build();
-		
-		DecodedJWT decodedJWT = verifier.verify(token);
-		System.out.println(decodedJWT.getHeader());
-		return decodedJWT.getSignature();
-	}
-	
-	public static String checkCredentials(String token) throws IllegalArgumentException, UnsupportedEncodingException {
-		String credentials = getClaims(token).get("sub").asString();
-		System.out.println(Base64.encodeBase64("castelgoulz:mdpalacon".getBytes()).toString());
-		System.out.println(credentials);
-		return credentials.toString();
-		
-	}
-	
+
 	public static Boolean verifyToken(String token) throws IllegalArgumentException, UnsupportedEncodingException {
 		Map<String, Claim> claims = getClaims(token);
 		for(Entry<String, Claim> entry : claims.entrySet()) {
@@ -86,15 +67,17 @@ public class JWTParser {
 				if(iss != issuer) {
 					throw new JWTVerificationException("Le fournisseur du jeton est invalide.");
 				}
+			} else if(entry.getKey() == "sub") {
+				if(null == userMetier.getUserFromId(entry.getKey())) {
+					throw new JWTVerificationException("L''utilisateur n'existe pas.");
+				}
 			}
 		}
 		return true;
 	}
-	
+
 	public static void main(String[] args) throws IllegalArgumentException, UnsupportedEncodingException {
 		String jeton = buildJWT("castelgoulz");
-		checkCredentials(jeton);
-		String test = getSignature(jeton);
 		System.out.println(jeton);
 	}
 }

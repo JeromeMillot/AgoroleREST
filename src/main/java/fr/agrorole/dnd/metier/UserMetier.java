@@ -1,11 +1,15 @@
 package fr.agrorole.dnd.metier;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.auth0.jwt.exceptions.JWTCreationException;
+
 import fr.agrorole.dnd.dao.UserDAO;
 import fr.agrorole.dnd.dto.User;
+import fr.agrorole.dnd.exceptions.UserFieldsException;
 import fr.agrorole.dnd.outils.JWTParser;
 
 public class UserMetier {
@@ -16,14 +20,14 @@ public class UserMetier {
 		return this.dao.getUser(id);
 	}
 	
-	public String getAuthToken(String id, String pwd) throws Exception {
+	public String getAuthToken(String id, String pwd) throws UserFieldsException, IllegalArgumentException, JWTCreationException, UnsupportedEncodingException {
 		User user = this.dao.getUser(id);
 		if(null == user) {
-			throw new Exception("Nom d'utilisateur incorrect!");
+			throw new UserFieldsException("Nom d'utilisateur incorrect!");
 		}
 		
 		if(user.getPassword() != pwd) {
-			throw new Exception("Mot de passe incorrect");
+			throw new UserFieldsException("Mot de passe incorrect");
 		}		
 		
 		return JWTParser.buildJWT(id);
@@ -37,23 +41,64 @@ public class UserMetier {
 		}
 	}
 	
-	public void createUser(User user) throws Exception {
+	public User createUser(User user) throws UserFieldsException {
 		if(null == user.getUserName()) {
-			throw new Exception("Nom d\'utilisateur obligatoire.");
+			throw new UserFieldsException("Nom d\'utilisateur obligatoire.");
 		} else if(!user.getUserName().trim().matches("\\w{3,30}")) {
-			throw new Exception("Le nom d\'utilisateur doit comporter entre 3 et 30 caractères, des caractères alphanumériques et des underscores.");
+			throw new UserFieldsException("Le nom d\'utilisateur doit comporter entre 3 et 30 caractères, des caractères alphanumériques et des underscores.");
 		}
 		
-		if (null == user.getPassword()) {
-			throw new Exception("Le mot de passe est obligatoire");
+		if(null == user.getPassword()) {
+			throw new UserFieldsException("Le mot de passe est obligatoire");
 		} else if (!user.getUserName().trim().matches("\\w{6,30}")) {
-			throw new Exception("Le mot de passe doit comporter entre 6 et 30 caractères, des caractères alphanumériques et des underscores.");
+			throw new UserFieldsException("Le mot de passe doit comporter entre 6 et 30 caractères, des caractères alphanumériques et des underscores.");
 		}
 		
 		if(null == user.getEmail()) {
-			throw new Exception("L\'email est obligatoire");
+			throw new UserFieldsException("L\'email est obligatoire");
 		} else if (!user.getUserName().trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
-			throw new Exception("Ce format d'email est incorrect.");
+			throw new UserFieldsException("Ce format d'email est incorrect.");
 		}
+		
+		if(null == user.getRole()) {
+			throw new UserFieldsException("Le role est manquant.");
+		}		
+		
+		this.dao.addUser(user);
+		
+		return this.getUserFromId(user.getUserName());
+	}
+	
+	public User updateUser(User user) throws UserFieldsException {
+		if(null == user.getUserName()) {
+			throw new UserFieldsException("Nom d\'utilisateur obligatoire.");
+		} else if(!user.getUserName().trim().matches("\\w{3,30}")) {
+			throw new UserFieldsException("Le nom d\'utilisateur doit comporter entre 3 et 30 caractères, des caractères alphanumériques et des underscores.");
+		}
+		
+		if(null == user.getPassword()) {
+			throw new UserFieldsException("Le mot de passe est obligatoire");
+		} else if (!user.getUserName().trim().matches("\\w{6,30}")) {
+			throw new UserFieldsException("Le mot de passe doit comporter entre 6 et 30 caractères, des caractères alphanumériques et des underscores.");
+		}
+		
+		if(null == user.getEmail()) {
+			throw new UserFieldsException("L\'email est obligatoire");
+		} else if (!user.getUserName().trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
+			throw new UserFieldsException("Ce format d'email est incorrect.");
+		}
+		
+		if(null == user.getRole()) {
+			throw new UserFieldsException("Le role est manquant.");
+		}
+		
+		this.dao.updateUser(user);
+		
+		return this.getUserFromId(user.getUserName());
+	}
+	
+	public String deleteUser(String id) {
+		this.dao.deleteUser(id);		
+		return id;
 	}
 }
