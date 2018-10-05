@@ -15,4 +15,14 @@
     <servlet-name>Jersey Web Application</servlet-name>
     <url-pattern>/webapi/*</url-pattern>
   </servlet-mapping>
+  
+  <filter>
+  	<filter-name>JWTFitler</filter-name>
+  	<filter-class>fr.agrorole.dnd.outils.filters.JWTFitler</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>JWTFitler</filter-name>
+  	<url-pattern>/espaceMembre/*</url-pattern>
+  </filter-mapping>
 </web-app>

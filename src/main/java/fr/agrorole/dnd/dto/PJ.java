@@ -48,21 +48,21 @@ public class PJ implements Serializable {
     private List<String> dons;
     @Column(name="COMP")
     private List<HashMap<String, Short>> competences;
-    @Column(name="SAUV_VO")
+    @Column(name="SAUV_VOL")
     private short sauvVolonte;
-    @Column(name="SAUV_VI")
+    @Column(name="SAUV_VIG")
     private short sauvVigueur;
-    @Column(name="SAUV_RE")
+    @Column(name="SAUV_REF")
     private short sauvReflexe;
     private short CA = 10;
     @Column(name="JOUEUR")    
-    private User user;
+    private String user;
 
 	public PJ(String nom, int age, int poids, long experience, String couleurPeau, String couleurYeux,
 			String couleurCheveux, String race, List<HashMap<String, Short>> classes, short force, short dexterite,
 			short constitution, short intelligence, short sagesse, short charisme, List<String> dons,
 			List<HashMap<String, Short>> competences, short sauvVolonte, short sauvVigueur, short sauvReflexe, short cA,
-			User user) {
+			String user) {
 		super();
 		this.nom = nom;
 		this.age = age;
@@ -260,14 +260,12 @@ public class PJ implements Serializable {
 		CA = cA;
 	}
 
-	@Override
-	public String toString() {
-		return "PJ [nom=" + nom + ", age=" + age + ", poids=" + poids + ", experience=" + experience + ", couleurPeau="
-				+ couleurPeau + ", couleurYeux=" + couleurYeux + ", couleurCheveux=" + couleurCheveux + ", race=" + race
-				+ ", classes=" + classes + ", force=" + force + ", dexterite=" + dexterite + ", constitution="
-				+ constitution + ", intelligence=" + intelligence + ", sagesse=" + sagesse + ", charisme=" + charisme
-				+ ", dons=" + dons + ", competences=" + competences + ", sauvVolonte=" + sauvVolonte + ", sauvVigueur="
-				+ sauvVigueur + ", sauvReflexe=" + sauvReflexe + ", CA=" + CA + "]";
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	@Override
@@ -295,6 +293,7 @@ public class PJ implements Serializable {
 		result = prime * result + sauvReflexe;
 		result = prime * result + sauvVigueur;
 		result = prime * result + sauvVolonte;
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -372,6 +371,11 @@ public class PJ implements Serializable {
 		if (sauvVigueur != other.sauvVigueur)
 			return false;
 		if (sauvVolonte != other.sauvVolonte)
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
 			return false;
 		return true;
 	}

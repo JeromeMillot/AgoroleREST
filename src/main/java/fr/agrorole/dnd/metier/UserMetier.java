@@ -7,14 +7,14 @@ import org.apache.commons.lang.StringUtils;
 
 import com.auth0.jwt.exceptions.JWTCreationException;
 
-import fr.agrorole.dnd.dao.UserDAO;
+import fr.agrorole.dnd.dao.UserDAOImpl;
 import fr.agrorole.dnd.dto.User;
 import fr.agrorole.dnd.exceptions.UserFieldsException;
 import fr.agrorole.dnd.outils.JWTParser;
 
 public class UserMetier {
 
-	private UserDAO dao = new UserDAO();
+	private UserDAOImpl dao = new UserDAOImpl();
 	
 	public User getUserFromId(String id) {
 		return this.dao.getUser(id);

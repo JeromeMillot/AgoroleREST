@@ -2,53 +2,66 @@ package fr.agrorole.dnd.dao;
 
 import java.util.List;
 
-import javax.persistence.Query;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.agrorole.dnd.dto.PJ;
 import fr.agrorole.dnd.dto.User;
-import fr.agrorole.dnd.interfaces.IUserDAO;
+import fr.agrorole.dnd.interfaces.ICharacterDAO;
 
-public class UserDAO implements IUserDAO {
+public class CharacterDAOImpl implements ICharacterDAO {
 	
 	private EntityManager entityManager;
-	private static Logger logger = LogManager.getLogger(UserDAO.class);
-	
-	public UserDAO() {
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("DB_DND");		
-		entityManager = entityManagerFactory.createEntityManager();
-	}
+	private static Logger logger = LogManager.getLogger(CharacterDAOImpl.class);
 
 	@Override
-	public void addUser(User user) {
+	public void addCharacter(PJ pj) {
 		// Debut de transaction
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
 		try {
-			entityManager.persist(user);
+			entityManager.persist(pj);
 			transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
 			 if (logger.isErrorEnabled()) {
 	            logger.debug(e);
 	        }
-		}		
+		}
+
 	}
 
 	@Override
-	public List<User> listUsers() {
+	public PJ getCharacter(String name) {
 		// Debut de transaction
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
 		try {
-		Query query = entityManager.createQuery("select u from User u");
+			PJ pj = entityManager.find(PJ.class, name);
+			return pj;
+		} catch (Exception e) {
+			transaction.rollback();
+			 if (logger.isErrorEnabled()) {
+	            logger.debug(e);
+	        }
+		}
+		return null;
+	}
+
+	@Override
+	public List<PJ> getAllCharacterList() {
+		// Debut de transaction
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		try {
+		Query query = entityManager.createQuery("select p from PJ p");
 		return query.getResultList();
 		} catch (Exception e) {
 			transaction.rollback();
@@ -60,62 +73,13 @@ public class UserDAO implements IUserDAO {
 	}
 
 	@Override
-	public User getUser(String userName) {
+	public List<PJ> getCharacterListByKW(String keyWord) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
 		try {
-			User u = entityManager.find(User.class, userName);
-			return u;
-		} catch (Exception e) {
-			transaction.rollback();
-			 if (logger.isErrorEnabled()) {
-	            logger.debug(e);
-	        }
-		}
-		return null;
-	}
-
-	@Override
-	public void updateUser(User user) {
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
-		
-		try {
-			entityManager.merge(user);
-		} catch (Exception e) {
-			transaction.rollback();
-			 if (logger.isErrorEnabled()) {
-	            logger.debug(e);
-	        }
-		}
-	}
-
-	@Override
-	public void deleteUser(String userName) {
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
-		
-		try {
-			User u = entityManager.find(User.class, userName);
-			entityManager.merge(u);		
-		} catch (Exception e) {
-			transaction.rollback();
-			 if (logger.isErrorEnabled()) {
-	            logger.debug(e);
-	        }
-		}
-		
-	}
-
-	@Override
-	public List<User> listUsersMC(String mc) {
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
-		
-		try {
-			Query query = entityManager.createQuery("select u from User u where p.userName like :x");
-			query.setParameter("x", "%"+mc+"%");
+			Query query = entityManager.createQuery("select p from PJ p where p.name like :x");
+			query.setParameter("x", "%"+keyWord+"%");
 			return query.getResultList();	
 		} catch (Exception e) {
 			transaction.rollback();
@@ -125,6 +89,56 @@ public class UserDAO implements IUserDAO {
 		}
 		return null;
 	}
+
+	@Override
+	public List<PJ> getCharacterListByUserName(String userName) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
 		
-	
+		try {
+			Query query = entityManager.createQuery("select p from PJ p where p.joueur = :j");
+			query.setParameter("j", userName);
+			return query.getResultList();	
+		} catch (Exception e) {
+			transaction.rollback();
+			 if (logger.isErrorEnabled()) {
+	            logger.debug(e);
+	        }
+		}
+		return null;
+	}
+
+	@Override
+	public void updateCharacter(PJ pj) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		try {
+			entityManager.merge(pj);
+		} catch (Exception e) {
+			transaction.rollback();
+			 if (logger.isErrorEnabled()) {
+	            logger.debug(e);
+	        }
+		}
+	}
+
+	@Override
+	public void deleteCharacter(String charName) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		try {
+			Query query = entityManager.createQuery("DELETE FROM PJ p WHERE p.name = :n");
+			query.setParameter("n", charName).executeUpdate();			
+			
+		} catch (Exception e) {
+			transaction.rollback();
+			 if (logger.isErrorEnabled()) {
+	            logger.debug(e);
+	        }
+		}
+
+	}
+
 }
