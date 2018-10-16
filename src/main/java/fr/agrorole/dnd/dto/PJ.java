@@ -32,7 +32,7 @@ public class PJ implements Serializable {
     @Column(name="COULC")
     private String couleurCheveux;
     private String race;
-    private List<HashMap<String, Short>> classes;
+    private HashMap<String, Short> classes;
     @Column(name="FOR")
     private short force;
     @Column(name="DEX")
@@ -47,7 +47,7 @@ public class PJ implements Serializable {
     private short charisme;
     private List<String> dons;
     @Column(name="COMP")
-    private List<HashMap<String, Short>> competences;
+    private HashMap<String, Short> competences;
     @Column(name="SAUV_VOL")
     private short sauvVolonte;
     @Column(name="SAUV_VIG")
@@ -55,13 +55,15 @@ public class PJ implements Serializable {
     @Column(name="SAUV_REF")
     private short sauvReflexe;
     private short CA = 10;
+    @Id
     @Column(name="JOUEUR")    
     private String user;
+	
 
 	public PJ(String nom, int age, int poids, long experience, String couleurPeau, String couleurYeux,
-			String couleurCheveux, String race, List<HashMap<String, Short>> classes, short force, short dexterite,
+			String couleurCheveux, String race, HashMap<String, Short> classes, short force, short dexterite,
 			short constitution, short intelligence, short sagesse, short charisme, List<String> dons,
-			List<HashMap<String, Short>> competences, short sauvVolonte, short sauvVigueur, short sauvReflexe, short cA,
+			HashMap<String, Short> competences, short sauvVolonte, short sauvVigueur, short sauvReflexe, short cA,
 			String user) {
 		super();
 		this.nom = nom;
@@ -156,11 +158,11 @@ public class PJ implements Serializable {
 		this.race = race;
 	}
 
-	public List<HashMap<String, Short>> getClasses() {
+	public HashMap<String, Short> getClasses() {
 		return classes;
 	}
 
-	public void setClasses(List<HashMap<String, Short>> classes) {
+	public void setClasses(HashMap<String, Short> classes) {
 		this.classes = classes;
 	}
 
@@ -219,12 +221,12 @@ public class PJ implements Serializable {
 	public void setDons(List<String> dons) {
 		this.dons = dons;
 	}
-
-	public List<HashMap<String, Short>> getCompetences() {
+	
+	public HashMap<String, Short> getCompetences() {
 		return competences;
 	}
 
-	public void setCompetences(List<HashMap<String, Short>> competences) {
+	public void setCompetences(HashMap<String, Short> competences) {
 		this.competences = competences;
 	}
 

@@ -37,13 +37,13 @@ public class CharacterDAOImpl implements ICharacterDAO {
 	}
 
 	@Override
-	public PJ getCharacter(String name) {
+	public PJ getCharacter(String name, String userId) {
 		// Debut de transaction
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
 		try {
-			PJ pj = entityManager.find(PJ.class, name);
+			PJ pj = entityManager.find(PJ.class, name+userId);
 			return pj;
 		} catch (Exception e) {
 			transaction.rollback();
@@ -124,13 +124,15 @@ public class CharacterDAOImpl implements ICharacterDAO {
 	}
 
 	@Override
-	public void deleteCharacter(String charName) {
+	public void deleteCharacter(String charName, String userId) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
 		try {
-			Query query = entityManager.createQuery("DELETE FROM PJ p WHERE p.name = :n");
-			query.setParameter("n", charName).executeUpdate();			
+			Query query = entityManager.createQuery("DELETE FROM PJ p WHERE p.name = :n AND p.user = :u");
+			query.setParameter("n", charName);
+			query.setParameter("u", userId);
+			query.executeUpdate();			
 			
 		} catch (Exception e) {
 			transaction.rollback();
