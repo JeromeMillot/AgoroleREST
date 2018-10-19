@@ -1,7 +1,5 @@
 package fr.agrorole.dnd.services;
 
-import static fr.agrorole.dnd.outils.MapperFactory.getObjectMapper;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -28,32 +26,24 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-
 import fr.agrorole.dnd.dto.User;
 import fr.agrorole.dnd.exceptions.UserFieldsException;
 import fr.agrorole.dnd.metier.UserMetier;
-import fr.agrorole.dnd.outils.MapperFactory;
-import fr.agrorole.dnd.outils.serializers.ListUsersSerializer;
-import fr.agrorole.dnd.outils.serializers.UserDeserializer;
-import fr.agrorole.dnd.outils.serializers.UserSerializer;
+import fr.agrorole.dnd.outils.serializers.GsonSerializationManager;
 
 @Path("/users")
 public class UserService {
 	
 	@Context transient HttpServletRequest request;
 	private UserMetier userMetier = new UserMetier();
+	private GsonSerializationManager serializeService = new GsonSerializationManager();	
+	
 	@GET
 	@Path("/singleUser")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUser(@QueryParam("id")String id) throws JsonProcessingException {
-		ObjectMapper mapper = MapperFactory.getObjectMapper();
-		SimpleModule module = new SimpleModule();
-		module.addSerializer(new UserSerializer());
-		mapper.registerModule(module);
 		User user = userMetier.getUserFromId(id);
-		String json = mapper.writeValueAsString(user);
+		String json = serializeService.userSerializer(user);
 		return Response.status(Status.OK).entity(json).build();
 	}
 	
@@ -61,12 +51,8 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/allUsers")
 	public Response getUserList(@DefaultValue("all") @QueryParam("like")String sr) throws JsonProcessingException {
-		ObjectMapper mapper = MapperFactory.getObjectMapper();
-		SimpleModule module = new SimpleModule();
-		module.addSerializer(new ListUsersSerializer());
-		mapper.registerModule(module);
 		List<User> users = userMetier.getUserList(sr);
-		String json = mapper.writeValueAsString(users);
+		String json = serializeService.userListSerializer(users);
 		return Response.status(Status.OK).entity(json).build();
 	}
 	
@@ -82,37 +68,25 @@ public class UserService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/createUser")
-	public Response postUser(String body, @Context HttpHeaders headers) throws JsonParseException, JsonMappingException, IOException, UserFieldsException {
-		Class<User> classe = User.class;
-		ObjectMapper mapper = getObjectMapper();
-		SimpleModule module = new SimpleModule();
-		String userMajId = getCredentials(headers).get(0);
-		module.addDeserializer(classe, new UserDeserializer(userMajId));
-		mapper.registerModule(module);
-		
-		User user = mapper.readValue(body, classe);		
-		String json = mapper.writeValueAsString(userMetier.createUser(user));
+	public Response postUser(String body) throws JsonParseException, JsonMappingException, IOException, UserFieldsException {
+		User user = serializeService.userDeserializer(body);		
+		String json = serializeService.userSerializer(userMetier.createUser(user));
 		
 		return Response.status(Status.OK).entity(json).build();
 	}
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response putUser(String body, @Context HttpHeaders headers) throws JsonParseException, JsonMappingException, IOException, UserFieldsException {
-		Class<User> classe = User.class;
-		ObjectMapper mapper = getObjectMapper();
-		SimpleModule module = new SimpleModule();
-		String userMajId = getCredentials(headers).get(0);
-		module.addDeserializer(classe, new UserDeserializer(userMajId));
-		mapper.registerModule(module);
+	@Path("/updateUser")
+	public Response putUser(String body) throws JsonParseException, JsonMappingException, IOException, UserFieldsException {
+		User user = serializeService.userDeserializer(body);
 		
-		User user = mapper.readValue(body, classe);
-		
-		String json = mapper.writeValueAsString(userMetier.updateUser(user));
+		String json = serializeService.userSerializer(userMetier.updateUser(user));
 		
 		return Response.status(Status.OK).entity(json).build();			
 	}
 	
+	@SuppressWarnings("static-access")
 	private List<String> getCredentials(HttpHeaders headers) {
 		String b64Credentials = headers.AUTHORIZATION;
 		String decoded = Base64.decodeAsString(b64Credentials);

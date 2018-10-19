@@ -25,7 +25,7 @@ public class JWTFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		String token = request.getAttribute("token").toString();
-		if(null != token || !token.isEmpty()) {
+		if(null != token) {
 			if(JWTParser.verifyToken(token)) {
 				chain.doFilter(request, response);
 			}
