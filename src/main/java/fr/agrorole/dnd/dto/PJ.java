@@ -89,6 +89,32 @@ public class PJ implements Serializable {
 		CA = cA;
 		this.user = user;
 	}
+	
+	public PJ(PJ pj) {
+		super();
+		this.nom = pj.nom;
+		this.age = pj.age;
+		this.poids = pj.poids;
+		this.experience = pj.experience;
+		this.couleurPeau = pj.couleurPeau;
+		this.couleurYeux = pj.couleurYeux;
+		this.couleurCheveux = pj.couleurCheveux;
+		this.race = pj.race;
+		this.classes = pj.classes;
+		this.force = pj.force;
+		this.dexterite = pj.dexterite;
+		this.constitution = pj.constitution;
+		this.intelligence = pj.intelligence;
+		this.sagesse = pj.sagesse;
+		this.charisme = pj.charisme;
+		this.dons = pj.dons;
+		this.competences = pj.competences;
+		this.sauvVolonte = pj.sauvVolonte;
+		this.sauvVigueur = pj.sauvVigueur;
+		this.sauvReflexe = pj.sauvReflexe;
+		CA = pj.CA;
+		this.user = pj.user;
+	}
 
 	public PJ() {
 		super();

@@ -29,7 +29,7 @@ public class CharacterService {
 	@Path("/getCharacter")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCharacter(@QueryParam("name")String name, @QueryParam("userId")String userId) throws CharFieldsException {
-		String json = serializeService.pjSerialier(characterMetier.getCharacter(name, userId));
+		String json = serializeService.pjSerializer(characterMetier.getCharacter(name, userId));
 		return Response.status(Status.OK).entity(json).build();		
 	}
 	
@@ -37,7 +37,7 @@ public class CharacterService {
 	@Path("/getAllChars")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCharList() {
-		String json = serializeService.pjListSerialier(characterMetier.getAllCharacters());
+		String json = serializeService.pjListSerializer(characterMetier.getAllCharacters());
 		return Response.status(Status.OK).entity(json).build();
 	}
 	
@@ -45,7 +45,7 @@ public class CharacterService {
 	@Path("/getAllCharsByUserId")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllCharsByUserId(@QueryParam("userId")String userId) throws CharFieldsException {
-		String json = serializeService.pjListSerialier(characterMetier.getAllCharactersByUserId(userId));
+		String json = serializeService.pjListSerializer(characterMetier.getAllCharactersByUserId(userId));
 		return Response.status(Status.OK).entity(json).build();
 	}
 	
@@ -53,7 +53,7 @@ public class CharacterService {
 	@Path("/getAllCharsByKW")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCharListbyKW(@QueryParam("keyword")String kw) throws CharFieldsException {
-		String json = serializeService.pjListSerialier(characterMetier.getCharacterListFromKW(kw));
+		String json = serializeService.pjListSerializer(characterMetier.getCharacterListFromKW(kw));
 		return Response.status(Status.OK).entity(json).build();
 	}
 	
@@ -61,8 +61,8 @@ public class CharacterService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/createCharacter")
 	public Response postNewCharacter(String body) throws CharFieldsException {
-		PJ pj = serializeService.pjDeserialier(body);		
-		String json = serializeService.pjSerialier(characterMetier.createNewCharacter(pj));
+		PJ pj = serializeService.pjDeserializer(body);		
+		String json = serializeService.pjSerializer(characterMetier.createNewCharacter(pj));
 		return Response.status(Status.OK).entity(json).build();
 	}
 	
@@ -70,8 +70,8 @@ public class CharacterService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/updateCharacter")
 	public Response putNewCharacter(String body) throws CharFieldsException {
-		PJ pj = serializeService.pjDeserialier(body);		
-		String json = serializeService.pjSerialier(characterMetier.updateChar(pj));
+		PJ pj = serializeService.pjDeserializer(body);		
+		String json = serializeService.pjSerializer(characterMetier.updateChar(pj));
 		return Response.status(Status.OK).entity(json).build();
 	}
 	

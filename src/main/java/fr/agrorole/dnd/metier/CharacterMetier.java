@@ -21,8 +21,6 @@ public class CharacterMetier {
 			
 			if(null==pj.getUser()) {
 				throw new CharFieldsException("Le nom de l'utilisateur est obligatoire.");
-			} else if(null==userMetier.getUserFromId(pj.getUser())) {
-				throw new CharFieldsException("L'utilisateur n\'existe pas en base.");
 			}
 			characterDAOImpl.addCharacter(pj);
 			return characterDAOImpl.getCharacter(pj.getNom(), pj.getUser());

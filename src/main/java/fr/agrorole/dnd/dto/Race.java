@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 @Entity
 public class Race implements Serializable {
 
@@ -19,6 +20,7 @@ public class Race implements Serializable {
 	private static final long serialVersionUID = 5231838391903136590L;
 	
 	@Id
+	@NotNull
 	private String label;
 	private String description;
 	private String catTaille;
@@ -51,6 +53,22 @@ public class Race implements Serializable {
 		this.competences = competences;
 		this.bonusSauv = bonusSauv;
 		this.carac = carac;
+	}
+	
+	public Race(Race race) {
+		super();
+		this.label = race.label;
+		this.description = race.description;
+		this.catTaille = race.catTaille;
+		this.ageMax = race.ageMax;
+		this.ajustNiv = race.ajustNiv;
+		this.vitDeplac = race.vitDeplac;
+		this.langues = race.langues;
+		this.prediClasse = race.prediClasse;
+		this.dons = race.dons;
+		this.competences = race.competences;
+		this.bonusSauv = race.bonusSauv;
+		this.carac = race.carac;
 	}
 
 	public Race() {

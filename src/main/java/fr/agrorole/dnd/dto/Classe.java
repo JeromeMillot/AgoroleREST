@@ -39,6 +39,20 @@ public class Classe implements Serializable {
 		this.prestige = prestige;
 		this.description = description;
 	}
+	
+	public Classe(Classe classe) {
+		super();
+		this.label = classe.label;
+		BAB = classe.BAB;
+		this.jetRef = classe.jetRef;
+		this.jetVig = classe.jetVig;
+		this.jetVol = classe.jetVol;
+		this.shortDV = classe.shortDV;
+		this.profane = classe.profane;
+		this.divin = classe.divin;
+		this.prestige = classe.prestige;
+		this.description = classe.description;
+	}
 
 	public Classe() {
 		super();

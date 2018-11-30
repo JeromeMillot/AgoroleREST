@@ -38,6 +38,17 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 	
+	public User(User user) {
+		super();
+		this.userName = user.userName;
+		this.password = user.password;
+		this.email = user.email;
+		this.role = user.role;
+		this.datecrea = user.datecrea;
+		this.firstName = user.firstName;
+		this.lastName = user.lastName;
+	}
+	
 	public User() {
 		
 	}

@@ -46,16 +46,24 @@ public class GsonSerializationManager {
 		return gson.fromJson(json, User.class);
 	}
 	
-	public String pjSerialier(PJ pj) {
+	public String pjSerializer(PJ pj) {
 		return gson.toJson(pj);
 	}
 	
-	public String pjListSerialier(List<PJ> ListPj) {
+	public String pjListSerializer(List<PJ> ListPj) {
 		return gson.toJson(ListPj);
 	}
 	
-	public PJ pjDeserialier(String json) {
+	public PJ pjDeserializer(String json) {
 		return gson.fromJson(json, PJ.class);
+	}
+	
+	public Race raceDeserializer(String json) {
+		return gson.fromJson(json, Race.class);
+	}
+	
+	public String raceSerializer(Race race) {
+		return gson.toJson(race);
 	}
 	
 	public String serializeRules(List<Carac> carac, List<Classe> classe, List<Competence> competence, List<Don> don, List<Race> race, List<Sauvegarde> sauvegarde) {
@@ -69,7 +77,7 @@ public class GsonSerializationManager {
 		String json = gson.toJson(mapRules);
 		System.out.println("Map Rules to json : "+ json);
 		return json;		
-	}
+	}	
 	
 	public static void main(String[] args) throws IllegalArgumentException, UnsupportedEncodingException {
 		GsonSerializationManager gUser = new GsonSerializationManager();

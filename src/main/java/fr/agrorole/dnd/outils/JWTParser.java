@@ -69,7 +69,7 @@ public class JWTParser {
 				}
 			} else if(entry.getKey() == "sub") {
 				if(null == userMetier.getUserFromId(entry.getKey())) {
-					throw new JWTVerificationException("L''utilisateur n'existe pas.");
+					throw new JWTVerificationException("L\'utilisateur n'existe pas.");
 				}
 			}
 		}
