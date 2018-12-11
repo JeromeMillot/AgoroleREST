@@ -66,6 +66,14 @@ public class GsonSerializationManager {
 		return gson.toJson(race);
 	}
 	
+	public Carac caracDeserializer(String json) {
+		return gson.fromJson(json, Carac.class);
+	}
+	
+	public String caracSerializer(Carac carac) {
+		return gson.toJson(carac);
+	}
+	
 	public String serializeRules(List<Carac> carac, List<Classe> classe, List<Competence> competence, List<Don> don, List<Race> race, List<Sauvegarde> sauvegarde) {
 		Map<String, List<?>> mapRules = new HashMap<String, List<?>>();
 		mapRules.put(CARAC_NAME, carac);
