@@ -9,23 +9,40 @@ import javax.persistence.Query;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.agrorole.dnd.dto.Race;
-import fr.agrorole.dnd.interfaces.IRaceDAO;
+import fr.agrorole.dnd.dto.Don;
+import fr.agrorole.dnd.interfaces.IDonDAO;
 
-public class RaceDAOImpl implements IRaceDAO {
+public class DonDAOImpl implements IDonDAO {
 	
 	private EntityManager entityManager;
-	private static Logger logger = LogManager.getLogger(RaceDAOImpl.class);
+	private static Logger logger = LogManager.getLogger(DonDAOImpl.class);
 
 	@Override
-	public List<Race> getListRace() {
+	public List<Don> getAllDons() {
 		// Debut de transaction
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+
+		try {
+			Query query = entityManager.createQuery("select d from DON d");
+			return query.getResultList();
+		} catch (Exception e) {
+			transaction.rollback();
+			if (logger.isErrorEnabled()) {
+				logger.error(e);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Don getDonByKw(String kw) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
 		try {
-		Query query = entityManager.createQuery("select r from RACE r");
-		return query.getResultList();
+			Don don = entityManager.find(Don.class, kw);
+			return don;
 		} catch (Exception e) {
 			transaction.rollback();
 			 if (logger.isErrorEnabled()) {
@@ -36,70 +53,52 @@ public class RaceDAOImpl implements IRaceDAO {
 	}
 
 	@Override
-	public Race getRaceByKw(String kw) {
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
-		
-		try {
-			Race race = entityManager.find(Race.class, kw);
-			return race;
-		} catch (Exception e) {
-			transaction.rollback();
-			 if (logger.isErrorEnabled()) {
-	            logger.error(e);
-	        }
-		}
-		return null;
-	}
-
-	@Override
-	public void addRace(Race race) {
+	public void addDon(Don don) {
 		// Debut de transaction
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
-		
+
 		try {
-			entityManager.persist(race);
+			entityManager.persist(don);
 			transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
-			 if (logger.isErrorEnabled()) {
-	            logger.error(e);
-	        }
+			if (logger.isErrorEnabled()) {
+				logger.error(e);
+			}
 		}
 
 	}
 
 	@Override
-	public void delRace(String raceName) {
+	public void updateDon(Don don) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
 		try {
-			Query query = entityManager.createQuery("DELETE FROM RACE r WHERE r.label = :l");
-			query.setParameter("l", raceName);			
-			query.executeUpdate();			
+			entityManager.merge(don);
+		} catch (Exception e) {
+			transaction.rollback();
+			 if (logger.isErrorEnabled()) {
+	            logger.error(e);
+	        }
+		}
+	}
+
+	@Override
+	public void deleteDon(String label) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		try {
+			Query query = entityManager.createQuery("DELETE FROM DON d WHERE d.label = :l");
+			query.setParameter("l", label);			
+			query.executeUpdate();
 			
 		} catch (Exception e) {
 			transaction.rollback();
 			 if (logger.isErrorEnabled()) {
-	            logger.debug(e);
-	        }
-		}
-
-	}
-
-	@Override
-	public void updateRace(Race race) {
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
-		
-		try {
-			entityManager.merge(race);
-		} catch (Exception e) {
-			transaction.rollback();
-			 if (logger.isErrorEnabled()) {
-	            logger.debug(e);
+	            logger.error(e);
 	        }
 		}
 

@@ -9,8 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
-
 import fr.agrorole.dnd.outils.JWTParser;
 
 public class JWTFilter implements Filter {

@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.agrorole.dnd.dto.PJ;
-import fr.agrorole.dnd.dto.User;
 import fr.agrorole.dnd.interfaces.ICharacterDAO;
 
 public class CharacterDAOImpl implements ICharacterDAO {

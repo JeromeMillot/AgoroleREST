@@ -12,9 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import fr.agrorole.dnd.dto.PJ;
 import fr.agrorole.dnd.dto.Race;
-import fr.agrorole.dnd.exceptions.CharFieldsException;
 import fr.agrorole.dnd.exceptions.RaceFieldsException;
 import fr.agrorole.dnd.metier.RaceMetier;
 import fr.agrorole.dnd.outils.serializers.GsonSerializationManager;

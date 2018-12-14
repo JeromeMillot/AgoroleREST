@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.agrorole.dnd.dto.Carac;
-import fr.agrorole.dnd.dto.Race;
 import fr.agrorole.dnd.interfaces.ICaracDAO;
 
 public class CaracDAOImpl implements ICaracDAO {

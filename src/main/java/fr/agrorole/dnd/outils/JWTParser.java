@@ -6,8 +6,6 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.apache.commons.codec.binary.Base64;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator.Builder;
 import com.auth0.jwt.JWTVerifier;
